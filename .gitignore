@@ -1,0 +1,7 @@
+# Ignore node modules
+/node_modules
+
+# Cypress generated output
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
