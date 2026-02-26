@@ -7,13 +7,33 @@ describe('Inventory Page', () => {
   const loginPage = new LoginPage();
   const inventoryPage = new InventoryPage();
 
-  beforeEach(() => {
-    loginPage.visit();
-    loginPage.loginWithCredentials(LOGIN_PAGE.STANDARD_USER_USERNAME, LOGIN_PAGE.STANDARD_USER_PASSWORD);
-    loginPage.assertLoginSuccess();
-  });
+  /**
+   * Cache the authenticated session so the login flow only runs once.
+   * Subsequent describe blocks restore the session from cache rather than
+   * repeating the full login sequence before every it().
+  */
+  
+  const loginAsStandardUser = () => {
+    cy.session(
+      LOGIN_PAGE.STANDARD_USER_USERNAME,
+      () => {
+        loginPage.visit();
+        loginPage.loginWithCredentials(
+          LOGIN_PAGE.STANDARD_USER_USERNAME,
+          LOGIN_PAGE.STANDARD_USER_PASSWORD
+        );
+        loginPage.assertLoginSuccess();
+      },
+      { cacheAcrossSpecs: false }
+    );
+  };
 
   describe('Page load', () => {
+    beforeEach(() => {
+      loginAsStandardUser();
+      inventoryPage.visit();
+    });
+
     it('displays the inventory page with all key elements', () => {
       inventoryPage.assertPageVisible();
     });
@@ -34,6 +54,11 @@ describe('Inventory Page', () => {
   });
 
   describe('Sorting', () => {
+    beforeEach(() => {
+      loginAsStandardUser();
+      inventoryPage.visit();
+    });
+
     it('sorts products by name A → Z', () => {
       inventoryPage.sortBy(INVENTORY_PAGE.SORT_NAME_ASC);
       inventoryPage.assertSortedByNameAsc();
@@ -56,6 +81,11 @@ describe('Inventory Page', () => {
   });
 
   describe('Cart interactions', () => {
+    beforeEach(() => {
+      loginAsStandardUser();
+      inventoryPage.visit();
+    });
+
     it('updates the cart badge to 1 after adding a single item', () => {
       inventoryPage.addToCart(INVENTORY_PAGE.PRODUCTS.BACKPACK.addToCartSelector);
       inventoryPage.assertCartBadge(1);
@@ -93,6 +123,11 @@ describe('Inventory Page', () => {
   });
 
   describe('Navigation', () => {
+    beforeEach(() => {
+      loginAsStandardUser();
+      inventoryPage.visit();
+    });
+
     it('navigates to the cart page when the cart icon is clicked', () => {
       inventoryPage.clickCart();
       cy.url().should('include', '/cart.html');
