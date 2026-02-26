@@ -16,6 +16,7 @@ describe('Login Page', () => {
 
     it('displays all login credentials elements on load', () => {
       loginPage.assertLoginPageCredentialsVisible();
+      loginPage.assertLoginCredentialsContainerText();
     });
 
     it('shows the login button as enabled by default', () => {
@@ -32,6 +33,10 @@ describe('Login Page', () => {
 
     it('shows the correct placeholders on the username and password fields, and login button', () => {
       loginPage.assertLoginFormFields()
+    });
+
+    it('displays the correct page title', () => {
+      loginPage.assertPageTitle();
     });
   });
 

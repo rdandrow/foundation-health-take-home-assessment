@@ -122,7 +122,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Perform a login with the given credentials. */
+  /** Perform a login with valid credentials (standard_user / secret_sauce). */
   loginWithCredentials(username: string, password: string) {
     this.setUsernameValue(username);
     this.setPasswordValue(password);
@@ -152,6 +152,26 @@ export class LoginPage {
     this.setPasswordValue(password);
     this.clickLoginButton();
     this.assertErrorMessage(LOGIN_PAGE.INVALID_CREDENTIALS_FORM_ERROR);
+    return this;
+  }
+
+  /** Assert against text within Credentials Container */
+  assertLoginCredentialsContainerText() {
+    cy.get(this.loginCredentials).should('contain.text', LOGIN_PAGE.LOGIN_CREDENTIALS_CONTAINER_TITLE);
+    cy.get(this.passwordCredentials).should('contain.text', LOGIN_PAGE.LOGIN_PASSWORD_CONTAINER_TITLE);
+    cy.get(this.loginCredentialsContainer).should('contain.text', LOGIN_PAGE.STANDARD_USER_USERNAME);
+    cy.get(this.loginCredentialsContainer).should('contain.text', LOGIN_PAGE.LOCKED_OUT_USER_USERNAME);
+    cy.get(this.loginCredentialsContainer).should('contain.text', LOGIN_PAGE.PROBLEM_USER_USERNAME);
+    cy.get(this.loginCredentialsContainer).should('contain.text', LOGIN_PAGE.PERFORMANCE_GLITCH_USER_USERNAME);
+    cy.get(this.loginCredentialsContainer).should('contain.text', LOGIN_PAGE.ERROR_USER_USERNAME);
+    cy.get(this.loginCredentialsContainer).should('contain.text', LOGIN_PAGE.VISUAL_USER_USERNAME);
+    cy.get(this.loginCredentialsContainer).should('contain.text', LOGIN_PAGE.STANDARD_USER_PASSWORD);
+    return this;
+  }
+
+  /** Assert that the page title is correct. */
+  assertPageTitle() {
+    cy.title().should('eq', LOGIN_PAGE.LOGIN_PAGE_TITLE);
     return this;
   }
 }
