@@ -7,8 +7,6 @@ describe('Login Page', () => {
     loginPage.visit();
   });
 
-  // ─── Page Load ─────────────────────────────────────────────────────────────
-
   describe('Page load', () => {
     it('displays all login elements on load', () => {
       loginPage.assertLoginPageVisible();
@@ -39,8 +37,6 @@ describe('Login Page', () => {
       loginPage.assertPageTitle();
     });
   });
-
-  // ─── Unsuccessful Login Validation ───────────────────────────────────────────────────────
   
   describe('Unsuccessful login Validation', () => {
     it('should fail login with missing username', () => {
@@ -55,8 +51,6 @@ describe('Login Page', () => {
       loginPage.loginWithInvalidCredentials('invalid_user', 'invalid_password');
     });
   });
-
-  // ─── Successful Login ───────────────────────────────────────────────────────
 
   describe('Successful login with Standard User', () => {
     it('logs in with valid credentials and redirect to inventory', () => {
