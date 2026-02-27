@@ -35,6 +35,18 @@ Runs all tests headlessly from the command line (ideal for CI pipelines):
 npm run cy:run
 ```
 
+## Test Suite Overview
+This Cypress suite currently contains 5 spec files:
+- `Cart.cy.ts` with 19 passing tests.
+- `Checkout-e2e.cy.ts` with 1 passing test.  This is the core e2e test that fulfils the task.
+- `Checkout.cy.ts` with 25 passing tests.
+- `Inventory.cy.ts` with 17 passing tests.
+- `Login.cy.ts` with 11 passing tests.
+
+I've verified that all specs pass via both the test runner and in headless mode in ~58 seconds.
+
+I know that I went a little above and beyond with my coverage here, but I was having fun going through this exercise and just wanted to keep adding more.
+
 ## Project Structure
 
 ```
