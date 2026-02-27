@@ -1,4 +1,4 @@
-import * as LOGIN_PAGE from '../constants/login.const';
+import * as LOGIN_PAGE from '../constants/Login.const';
 
 export class LoginPage {
   // Form inputs
@@ -19,34 +19,34 @@ export class LoginPage {
   // Post-login locator (confirms successful navigation)
   readonly inventoryContainer = '[data-test="inventory-container"]';
 
-  /** Navigate to the login page. */
+  // Navigate to the login page.
   visit() {
     cy.visit('/');
     return this;
   }
 
-/** Get the username input field. */
+// Get the username input field.
   getUsernameInput() {
     return cy.get(this.usernameInput)
       .should('be.visible')
       .and('have.attr', 'placeholder', LOGIN_PAGE.USERNAME_INPUT_PLACEHOLDER_TEXT);
   }
 
-  /** Get the password input field. */
+  // Get the password input field.
   getPasswordInput() {
     return cy.get(this.passwordInput)
       .should('be.visible')
       .and('have.attr', 'placeholder', LOGIN_PAGE.PASSWORD_INPUT_PLACEHOLDER_TEXT);
   }
 
-  /** Get the login button. */
+  // Get the login button.
   getLoginButton() {
     return cy.get(this.loginButton)
       .should('be.visible')
       .and('have.attr', 'value', LOGIN_PAGE.LOGIN_BUTTON_TITLE);
   }
 
-  /** assert against core login form fields */
+  // assert against core login form fields
   assertLoginFormFields() {
     this.getUsernameInput();
     this.getPasswordInput();
@@ -54,7 +54,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Assert that core login page elements are visible. */
+  // Assert that core login page elements are visible.
   assertLoginPageVisible() {
     cy.get(this.loginContainer).should('be.visible');
     cy.get(this.usernameInput).should('be.visible');
@@ -63,7 +63,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Assert that core login page credentials container is visible. */
+  // Assert that core login page credentials container is visible.
   assertLoginPageCredentialsVisible() {    
     cy.get(this.loginCredentialsContainer).should('be.visible');
     cy.get(this.loginCredentials).should('be.visible');
@@ -71,7 +71,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Assert that the login button is enabled. */
+  // Assert that the login button is enabled.
   assertLoginButtonEnabled() {
     cy.get(this.loginButton).should('be.enabled');
     return this;
@@ -85,44 +85,44 @@ export class LoginPage {
     return this;
   }
 
-  /** Assert that the correct error banner is shown and visible. */
+  // Assert that the correct error banner is shown and visible.
   assertErrorMessage(expected: string) {
     cy.get(this.errorMessage).should('be.visible').and('have.text', expected);
     return this;
   }
 
-  /** Assert that no error banner is shown. */
+  // Assert that no error banner is shown.
   assertNoErrorMessage() {
     cy.get(this.errorMessage).should('not.exist');
     return this;
   }
 
-  /** Assert that login succeeded by checking for the inventory container. */
+  // Assert that login succeeded by checking for the inventory container.
   assertLoginSuccess() {
     cy.get(this.inventoryContainer).should('be.visible');
     cy.url().should('include', '/inventory.html');
     return this;
   }
 
-  /** Type a value into the username field. */
+  // Type a value into the username field.
   setUsernameValue(username: string) {
     cy.get(this.usernameInput).clear().type(username);
     return this;
   }
 
-  /** Type a value into the password field. */
+  // Type a value into the password field.
   setPasswordValue(password: string) {
     cy.get(this.passwordInput).clear().type(password);
     return this;
   }
 
-  /** Click the Login button. */
+  // Click the Login button.
   clickLoginButton() {
     cy.get(this.loginButton).click();
     return this;
   }
 
-  /** Perform a login with valid credentials (standard_user / secret_sauce). */
+  // Perform a login with valid credentials (standard_user / secret_sauce).
   loginWithCredentials(username: string, password: string) {
     this.setUsernameValue(username);
     this.setPasswordValue(password);
@@ -130,7 +130,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Attempt to login without a username. */
+  // Attempt to login without a username.
   loginWithNoUsername() {
     this.setPasswordValue('secret_sauce');
     this.clickLoginButton();
@@ -138,7 +138,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Attempt to login without a password. */
+  // Attempt to login without a password.
   loginWithNoPassword() {
     this.setUsernameValue('standard_user');
     this.clickLoginButton();
@@ -146,7 +146,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Attempt to login with invalid credentials. */
+  // Attempt to login with invalid credentials.
   loginWithInvalidCredentials(username: string, password: string) {
     this.setUsernameValue(username);
     this.setPasswordValue(password);
@@ -155,7 +155,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Assert against text within Credentials Container */
+  // Assert against text within Credentials Container
   assertLoginCredentialsContainerText() {
     cy.get(this.loginCredentials).should('contain.text', LOGIN_PAGE.LOGIN_CREDENTIALS_CONTAINER_TITLE);
     cy.get(this.passwordCredentials).should('contain.text', LOGIN_PAGE.LOGIN_PASSWORD_CONTAINER_TITLE);
@@ -169,7 +169,7 @@ export class LoginPage {
     return this;
   }
 
-  /** Assert that the page title is correct. */
+  // Assert that the page title is correct.
   assertPageTitle() {
     cy.title().should('eq', LOGIN_PAGE.LOGIN_PAGE_TITLE);
     return this;
