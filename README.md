@@ -49,7 +49,8 @@ npm run cy:run
 │   │   ├── Login.cy.ts
 │   │   ├── Inventory.cy.ts
 │   │   ├── Cart.cy.ts
-│   │   └── Checkout.cy.ts
+│   │   ├── Checkout.cy.ts
+│   │   └── Checkout-e2e.cy.ts
 │   ├── fixtures/               # Static test data (JSON)
 │   ├── pages/                  # Page Object Model classes
 │   │   ├── BasePage.ts         # Abstract base class — shared locators & methods
@@ -73,6 +74,99 @@ Refer to the [Cypress configuration docs](https://docs.cypress.io/app/references
 ## Cypress Version
 
 This project uses **Cypress 15.11.0**.
+
+---
+
+## Best Practices & Design Patterns
+
+### Page Object Model (POM)
+
+Every page in the application has a dedicated TypeScript class in `cypress/pages/`. Each class owns all locators and interaction methods for its page. Spec files never reference raw selectors or construct URLs directly — they only call page object methods. This means selector changes require a single update in one file rather than hunting through every spec.
+
+```typescript
+// GOOD - Spec calls a method — doesn't know or care about selectors
+stepOnePage.submitCheckoutInfo(firstName, lastName, postalCode);
+
+// BAD - Anti-pattern — selector leaking into the spec
+cy.get('[data-test="firstName"]').type(firstName);
+```
+
+---
+
+### Abstract BasePage
+
+All authenticated page classes extend an abstract `BasePage` that provides every shared locator and method (header, burger menu, cart badge, footer). Page-specific classes only define what is unique to them. This eliminates duplication and ensures shared behaviour (e.g. `logout()`, `assertCartBadge()`) is maintained in one place.
+
+```
+BasePage (abstract)
+├── InventoryPage
+├── CartPage
+├── CheckoutStepOnePage
+├── CheckoutStepTwoPage
+└── CheckoutCompletePage
+```
+
+---
+
+### Fluent Interface (Method Chaining)
+
+Every page method returns `this`, allowing assertion and action calls to be chained for concise, readable test flows without sacrificing clarity.
+
+```typescript
+stepOnePage
+  .enterFirstName(firstName)
+  .enterLastName(lastName)
+  .enterPostalCode(postalCode)
+  .clickContinue();
+```
+
+---
+
+### Constants Files
+
+All string values — page titles, URLs, error messages, placeholder text, product names, button labels — are exported from per-page constants files in `cypress/constants/`. Specs and page objects import these constants rather than hardcoding strings, so a copy change in the application requires updating only the constants file.
+
+```typescript
+// GOOD - Value lives in one place
+cy.get(this.pageTitle).should('have.text', CHECKOUT.STEP_ONE_PAGE_TITLE);
+
+// BAD - Anti-pattern — brittle hardcoded string
+cy.get(this.pageTitle).should('have.text', 'Checkout: Your Information');
+```
+
+---
+
+### `data-test` Attribute Selectors
+
+All locators target `[data-test="..."]` attributes rather than CSS classes, element tags, or text content. These attributes exist solely for testing and are immune to styling refactors or markup restructuring.
+
+```typescript
+readonly continueBtn = '[data-test="continue"]';
+```
+
+---
+
+### `cy.loginAsStandardUser()` Custom Command
+
+The `cy.session()`-backed login flow is registered as a Cypress custom command in `cypress/support/commands.ts`. Any spec that requires an authenticated state calls a single line instead of repeating the session setup boilerplate. The `cy.session()` cache means the login form runs only once per spec — subsequent tests restore the session from cache, cutting redundant network round-trips.
+
+```typescript
+beforeEach(() => {
+  cy.loginAsStandardUser();
+});
+```
+
+---
+
+### `beforeEach` for Page Setup
+
+All `describe` blocks use `beforeEach` rather than `before` to set up page state. Cypress's default `testIsolation: true` clears browser state between every test, so `before` would only reliably set up state for the first `it` in a block. `beforeEach` ensures a clean, consistent starting point for every test regardless of execution order.
+
+---
+
+### TypeScript Throughout
+
+The entire project — page objects, constants, specs, support files, and custom command declarations — is written in TypeScript with `strict: true`. The `declare global` block in `commands.ts` provides full IDE autocompletion and compile-time type checking for custom commands, catching errors before the browser ever opens.
 
 ---
 
@@ -266,7 +360,7 @@ This project uses **Cypress 15.11.0**.
 | 24 | Displays the Pony Express delivery image | `COMPLETED` |
 | 25 | Clicking Back to Products navigates to the inventory page | `COMPLETED` |
 
-#### End-to-End Flow
+#### End-to-End Flow — `cypress/e2e/Checkout-e2e.cy.ts`
 | # | Test | Status |
 |---|------|--------|
 | 26 | Full e2e: login → add item to cart → checkout → fill info → confirm order | `COMPLETED` |
