@@ -42,14 +42,17 @@ npm run cy:run
 ├── cypress/
 │   ├── constants/        # Exported string/selector constants per page
 │   │   ├── Login.const.ts
-│   │   └── Inventory.const.ts
+│   │   ├── Inventory.const.ts
+│   │   └── Cart.const.ts
 │   ├── e2e/              # Test spec files
 │   │   ├── Login.cy.ts
-│   │   └── Inventory.cy.ts
+│   │   ├── Inventory.cy.ts
+│   │   └── Cart.cy.ts
 │   ├── fixtures/         # Static test data (JSON)
 │   ├── pages/            # Page Object Model classes
 │   │   ├── LoginPage.ts
-│   │   └── InventoryPage.ts
+│   │   ├── InventoryPage.ts
+│   │   └── CartPage.ts
 │   └── support/          # Custom commands and global configuration
 ├── cypress.config.js     # Cypress configuration
 └── package.json
@@ -157,4 +160,3 @@ This project uses **Cypress 15.11.0**.
 - [ ] `problem_user` — broken product images are visible
 - [ ] `performance_glitch_user` — page load is delayed but ultimately succeeds
 - [ ] `locked_out_user` — redirected back to login when attempting to access inventory directly
-- [ ] All interactive elements are keyboard-navigable (accessibility)
