@@ -1,4 +1,5 @@
 import { LoginPage } from '../pages/LoginPage';
+import * as LOGIN_PAGE from '../constants/Login.const';
 
 describe('Login Page', () => {
   const loginPage = new LoginPage();
@@ -54,7 +55,7 @@ describe('Login Page', () => {
 
   describe('Successful login with Standard User', () => {
     it('logs in with valid credentials and redirect to inventory', () => {
-      loginPage.loginWithCredentials('standard_user', 'secret_sauce');
+      loginPage.loginWithCredentials(LOGIN_PAGE.STANDARD_USER_USERNAME, LOGIN_PAGE.STANDARD_USER_PASSWORD);
       loginPage.assertLoginSuccess();
     });
   });

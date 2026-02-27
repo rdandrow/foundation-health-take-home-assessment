@@ -43,9 +43,3 @@ export const PRODUCTS = {
     removeSelector: 'remove-test.allthethings()-t-shirt-(red)',
   },
 } as const;
-
-// Footer content
-export const FOOTER_TWITTER_LINK = 'https://twitter.com/saucelabs';
-export const FOOTER_FACEBOOK_LINK = 'https://www.facebook.com/saucelabs';
-export const FOOTER_LINKEDIN_LINK = 'https://www.linkedin.com/company/sauce-labs/';
-export const FOOTER_COPY_TEXT = '© 2024 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy';
