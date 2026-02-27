@@ -18,7 +18,7 @@ export class InventoryPage extends BasePage {
    * Navigate directly to the inventory page.
    * failOnStatusCode: false is required because saucedemo is a client-side SPA —
    * the server returns 404 for /inventory.html but the client-side router handles it correctly.
-   */
+  */
   visit() {
     cy.visit(INVENTORY_PAGE.INVENTORY_PAGE_URL, { failOnStatusCode: false });
     return this;

@@ -25,7 +25,7 @@ export class LoginPage {
     return this;
   }
 
-// Get the username input field.
+  // Get the username input field.
   getUsernameInput() {
     return cy.get(this.usernameInput)
       .should('be.visible')
@@ -133,7 +133,7 @@ export class LoginPage {
 
   // Attempt to login without a username.
   loginWithNoUsername() {
-    this.setPasswordValue('secret_sauce');
+    this.setPasswordValue(LOGIN_PAGE.STANDARD_USER_PASSWORD);
     this.clickLoginButton();
     this.assertErrorMessage(LOGIN_PAGE.USERNAME_REQUIRED_FORM_ERROR);
     return this;
@@ -141,9 +141,9 @@ export class LoginPage {
 
   // Attempt to login without a password.
   loginWithNoPassword() {
-    this.setUsernameValue('standard_user');
+    this.setUsernameValue(LOGIN_PAGE.STANDARD_USER_USERNAME);
     this.clickLoginButton();
-    this.assertErrorMessage(LOGIN_PAGE.PASSWORD_REQUIRED_FORM_ERROR)
+    this.assertErrorMessage(LOGIN_PAGE.PASSWORD_REQUIRED_FORM_ERROR);
     return this;
   }
 

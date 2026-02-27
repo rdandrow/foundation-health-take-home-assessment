@@ -17,7 +17,7 @@ export class CheckoutCompletePage extends BasePage {
    * Navigate directly to the checkout complete page.
    * failOnStatusCode: false is required because saucedemo is a client-side SPA —
    * the server returns 404 but the client-side router handles it correctly.
-   */
+  */
   visit() {
     cy.visit(CHECKOUT.COMPLETE_PAGE_URL, { failOnStatusCode: false });
     return this;

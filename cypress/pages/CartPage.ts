@@ -81,18 +81,6 @@ export class CartPage extends BasePage {
     return this;
   }
 
-  // Assert the cart badge displays the expected count.
-  assertCartBadge(count: number) {
-    cy.get(this.shoppingCartBadge).should('be.visible').and('have.text', String(count));
-    return this;
-  }
-
-  // Assert the cart badge is not visible (cart is empty).
-  assertCartBadgeNotVisible() {
-    cy.get(this.shoppingCartBadge).should('not.exist');
-    return this;
-  }
-
   // Assert the column header labels are visible.
   assertColumnHeadersVisible() {
     cy.get(this.cartQuantityLabel).should('be.visible').and('have.text', CART_PAGE.CART_QUANTITY_LABEL);

@@ -34,7 +34,6 @@ export class CheckoutStepTwoPage extends BasePage {
    * failOnStatusCode: false is required because saucedemo is a client-side SPA —
    * the server returns 404 but the client-side router handles it correctly.
   */
-
   visit() {
     cy.visit(CHECKOUT.STEP_TWO_PAGE_URL, { failOnStatusCode: false });
     return this;
