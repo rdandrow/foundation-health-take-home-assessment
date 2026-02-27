@@ -1,34 +1,15 @@
-import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
 import * as CART_PAGE from '../constants/Cart.const';
 import * as INVENTORY_PAGE from '../constants/Inventory.const';
-import * as LOGIN_PAGE from '../constants/Login.const';
 
 describe('Cart Page', () => {
-  const loginPage = new LoginPage();
   const inventoryPage = new InventoryPage();
   const cartPage = new CartPage();
 
-  // Cache the authenticated session so the login flow only runs once per block.
-  const loginAsStandardUser = () => {
-    cy.session(
-      LOGIN_PAGE.STANDARD_USER_USERNAME,
-      () => {
-        loginPage.visit();
-        loginPage.loginWithCredentials(
-          LOGIN_PAGE.STANDARD_USER_USERNAME,
-          LOGIN_PAGE.STANDARD_USER_PASSWORD
-        );
-        loginPage.assertLoginSuccess();
-      },
-      { cacheAcrossSpecs: false }
-    );
-  };
-
   describe('Page load — empty cart', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       cartPage.visit();
     });
 
@@ -61,7 +42,7 @@ describe('Cart Page', () => {
 
   describe('Page load — cart with items', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       inventoryPage.visit();
       inventoryPage.addToCart(INVENTORY_PAGE.PRODUCTS.BACKPACK.addToCartSelector);
       inventoryPage.addToCart(INVENTORY_PAGE.PRODUCTS.BIKE_LIGHT.addToCartSelector);
@@ -93,7 +74,7 @@ describe('Cart Page', () => {
 
   describe('Remove items', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       inventoryPage.visit();
       inventoryPage.addToCart(INVENTORY_PAGE.PRODUCTS.BACKPACK.addToCartSelector);
       inventoryPage.addToCart(INVENTORY_PAGE.PRODUCTS.BIKE_LIGHT.addToCartSelector);
@@ -124,7 +105,7 @@ describe('Cart Page', () => {
 
   describe('Navigation', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       cartPage.visit();
     });
 

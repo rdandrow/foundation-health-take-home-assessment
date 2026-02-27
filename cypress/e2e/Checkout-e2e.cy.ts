@@ -1,4 +1,3 @@
-import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import { CartPage } from '../pages/CartPage';
 import { CheckoutStepOnePage } from '../pages/CheckoutStepOnePage';
@@ -6,34 +5,16 @@ import { CheckoutStepTwoPage } from '../pages/CheckoutStepTwoPage';
 import { CheckoutCompletePage } from '../pages/CheckoutCompletePage';
 import * as CHECKOUT from '../constants/Checkout.const';
 import * as INVENTORY_PAGE from '../constants/Inventory.const';
-import * as LOGIN_PAGE from '../constants/Login.const';
 
 describe('End-to-End Checkout Flow', () => {
-  const loginPage = new LoginPage();
   const inventoryPage = new InventoryPage();
   const cartPage = new CartPage();
   const stepOnePage = new CheckoutStepOnePage();
   const stepTwoPage = new CheckoutStepTwoPage();
   const completePage = new CheckoutCompletePage();
 
-  // Cache the authenticated session so the login flow only runs once per block.
-  const loginAsStandardUser = () => {
-    cy.session(
-      LOGIN_PAGE.STANDARD_USER_USERNAME,
-      () => {
-        loginPage.visit();
-        loginPage.loginWithCredentials(
-          LOGIN_PAGE.STANDARD_USER_USERNAME,
-          LOGIN_PAGE.STANDARD_USER_PASSWORD
-        );
-        loginPage.assertLoginSuccess();
-      },
-      { cacheAcrossSpecs: false }
-    );
-  };
-
   beforeEach(() => {
-    loginAsStandardUser();
+    cy.loginAsStandardUser();
   });
 
   it('completes a full checkout: login → add item → cart → info → overview → confirm', () => {

@@ -1,36 +1,12 @@
-import { LoginPage } from '../pages/LoginPage';
 import { InventoryPage } from '../pages/InventoryPage';
 import * as INVENTORY_PAGE from '../constants/Inventory.const';
-import * as LOGIN_PAGE from '../constants/Login.const';
 
 describe('Inventory Page', () => {
-  const loginPage = new LoginPage();
   const inventoryPage = new InventoryPage();
-
-  /**
-   * Cache the authenticated session so the login flow only runs once.
-   * Subsequent describe blocks restore the session from cache rather than
-   * repeating the full login sequence before every it().
-  */
-  
-  const loginAsStandardUser = () => {
-    cy.session(
-      LOGIN_PAGE.STANDARD_USER_USERNAME,
-      () => {
-        loginPage.visit();
-        loginPage.loginWithCredentials(
-          LOGIN_PAGE.STANDARD_USER_USERNAME,
-          LOGIN_PAGE.STANDARD_USER_PASSWORD
-        );
-        loginPage.assertLoginSuccess();
-      },
-      { cacheAcrossSpecs: false }
-    );
-  };
 
   describe('Page load', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       inventoryPage.visit();
     });
 
@@ -55,7 +31,7 @@ describe('Inventory Page', () => {
 
   describe('Sorting', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       inventoryPage.visit();
     });
 
@@ -82,7 +58,7 @@ describe('Inventory Page', () => {
 
   describe('Cart interactions', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       inventoryPage.visit();
     });
 
@@ -124,7 +100,7 @@ describe('Inventory Page', () => {
 
   describe('Navigation', () => {
     beforeEach(() => {
-      loginAsStandardUser();
+      cy.loginAsStandardUser();
       inventoryPage.visit();
     });
 
