@@ -77,7 +77,8 @@ export class LoginPage {
     return this;
   }
 
-  /** Assert the current value of the username field. 
+  /** 
+   * Assert the current value of the username field. 
    * Note: This is used to confirm that the field is empty on load, and can be updated when typing.
   */
   assertUsernameValue(expected: string) {

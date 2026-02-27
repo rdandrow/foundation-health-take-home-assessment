@@ -40,22 +40,27 @@ npm run cy:run
 ```
 .
 ├── cypress/
-│   ├── constants/        # Exported string/selector constants per page
+│   ├── constants/              # Exported string/selector constants per page
 │   │   ├── Login.const.ts
 │   │   ├── Inventory.const.ts
-│   │   └── Cart.const.ts
-│   ├── e2e/              # Test spec files
+│   │   ├── Cart.const.ts
+│   │   └── Checkout.const.ts
+│   ├── e2e/                    # Test spec files
 │   │   ├── Login.cy.ts
 │   │   ├── Inventory.cy.ts
-│   │   └── Cart.cy.ts
-│   ├── fixtures/             # Static test data (JSON)
-│   ├── pages/                # Page Object Model classes
-│   │   ├── BasePage.ts       # Abstract base class — shared locators & methods
+│   │   ├── Cart.cy.ts
+│   │   └── Checkout.cy.ts
+│   ├── fixtures/               # Static test data (JSON)
+│   ├── pages/                  # Page Object Model classes
+│   │   ├── BasePage.ts         # Abstract base class — shared locators & methods
 │   │   ├── LoginPage.ts
 │   │   ├── InventoryPage.ts
-│   │   └── CartPage.ts
-│   └── support/          # Custom commands and global configuration
-├── cypress.config.js     # Cypress configuration
+│   │   ├── CartPage.ts
+│   │   ├── CheckoutStepOnePage.ts
+│   │   ├── CheckoutStepTwoPage.ts
+│   │   └── CheckoutCompletePage.ts
+│   └── support/                # Custom commands and global configuration
+├── cypress.config.js           # Cypress configuration
 └── package.json
 ```
 
@@ -161,3 +166,122 @@ This project uses **Cypress 15.11.0**.
 - [ ] `problem_user` — broken product images are visible
 - [ ] `performance_glitch_user` — page load is delayed but ultimately succeeds
 - [ ] `locked_out_user` — redirected back to login when attempting to access inventory directly
+
+---
+
+### Cart Page — `cypress/e2e/Cart.cy.ts`
+
+> Session caching via `cy.session()` is used across all describe blocks so that the login flow executes once per block and is restored from cache for subsequent tests, avoiding redundant form interactions.
+
+#### Page Load — Empty Cart
+| # | Test | Status |
+|---|------|--------|
+| 1 | Loads the cart page with all key elements visible | `COMPLETED` |
+| 2 | Displays the correct page title | `COMPLETED` |
+| 3 | Shows the QTY and Description column headers | `COMPLETED` |
+| 4 | Shows the Continue Shopping and Checkout buttons | `COMPLETED` |
+| 5 | Renders an empty cart with no items | `COMPLETED` |
+| 6 | Does not show a cart badge when the cart is empty | `COMPLETED` |
+
+#### Page Load — Cart with Items
+| # | Test | Status |
+|---|------|--------|
+| 7 | Loads the cart page correctly after adding items on the inventory page | `COMPLETED` |
+| 8 | Displays the correct number of items in the cart | `COMPLETED` |
+| 9 | Shows the cart badge with the correct count | `COMPLETED` |
+| 10 | Shows all added item names in the cart | `COMPLETED` |
+
+#### Item Removal
+| # | Test | Status |
+|---|------|--------|
+| 11 | Removing an item decrements the item count | `COMPLETED` |
+| 12 | Removing the last item empties the cart | `COMPLETED` |
+| 13 | Cart badge disappears after the last item is removed | `COMPLETED` |
+| 14 | Removing one item does not affect other items in the cart | `COMPLETED` |
+
+#### Navigation
+| # | Test | Status |
+|---|------|--------|
+| 15 | Continue Shopping button returns to the inventory page | `COMPLETED` |
+| 16 | Checkout button navigates to checkout step one | `COMPLETED` |
+| 17 | Cart badge count persists when navigating back from the cart | `COMPLETED` |
+| 18 | Burger menu logout redirects to the login page | `COMPLETED` |
+| 19 | Cart items persist between page navigations | `COMPLETED` |
+
+#### TODOs — remaining items for full test coverage
+- [ ] Each cart item displays a quantity, name, description, and price
+- [ ] Item price in the cart matches the price on the inventory page
+- [ ] Item quantity in the cart defaults to 1
+- [ ] Removing an item from the cart updates the inventory page (Remove → Add to Cart)
+- [ ] Cart state is preserved after a page reload
+- [ ] Reset App State clears the cart
+- [ ] `problem_user` — correct item names shown in the cart
+- [ ] `performance_glitch_user` — cart updates correctly despite page delays
+- [ ] Burger menu "All Items" link returns to the inventory from the cart page
+
+---
+
+### Checkout Flow — `cypress/e2e/Checkout.cy.ts`
+
+> Session caching via `cy.session()` is used across all describe blocks so that the login flow executes once per block and is restored from cache for subsequent tests, avoiding redundant form interactions.
+
+#### Checkout Step One — Page Load
+| # | Test | Status |
+|---|------|--------|
+| 1 | Loads the checkout step one page with all key elements visible | `COMPLETED` |
+| 2 | Displays the correct page title | `COMPLETED` |
+| 3 | Renders the first name, last name, and postal code inputs | `COMPLETED` |
+| 4 | Renders the Continue and Cancel buttons | `COMPLETED` |
+| 5 | Does not show an error message on initial page load | `COMPLETED` |
+| 6 | Clicking Cancel navigates back to the cart page | `COMPLETED` |
+
+#### Checkout Step One — Validation
+| # | Test | Status |
+|---|------|--------|
+| 7 | Shows an error when Continue is clicked with no first name | `COMPLETED` |
+| 8 | Shows an error when Continue is clicked with no last name | `COMPLETED` |
+| 9 | Shows an error when Continue is clicked with no postal code | `COMPLETED` |
+| 10 | Clicking the dismiss button removes the error message | `COMPLETED` |
+
+#### Checkout Step Two — Order Overview
+| # | Test | Status |
+|---|------|--------|
+| 11 | Loads the step two page with all key elements visible | `COMPLETED` |
+| 12 | Displays the correct page title | `COMPLETED` |
+| 13 | Shows the correct number of order items | `COMPLETED` |
+| 14 | Shows the correct item name in the order summary | `COMPLETED` |
+| 15 | Displays the Payment Information section | `COMPLETED` |
+| 16 | Displays the Shipping Information section | `COMPLETED` |
+| 17 | Displays the price summary (subtotal, tax, total) | `COMPLETED` |
+| 18 | Renders the Finish and Cancel buttons | `COMPLETED` |
+| 19 | Clicking Cancel returns to the inventory page | `COMPLETED` |
+
+#### Checkout Complete — Confirmation
+| # | Test | Status |
+|---|------|--------|
+| 20 | Loads the confirmation page with all key elements visible | `COMPLETED` |
+| 21 | Displays the correct page title | `COMPLETED` |
+| 22 | Shows the order confirmation header | `COMPLETED` |
+| 23 | Shows the confirmation body copy | `COMPLETED` |
+| 24 | Displays the Pony Express delivery image | `COMPLETED` |
+| 25 | Clicking Back to Products navigates to the inventory page | `COMPLETED` |
+
+#### End-to-End Flow
+| # | Test | Status |
+|---|------|--------|
+| 26 | Full e2e: login → add item to cart → checkout → fill info → confirm order | `COMPLETED` |
+
+#### TODOs — remaining items for full test coverage
+- [ ] Error message is highlighted / focused for accessibility on step one
+- [ ] Filled values are retained after dismissing a validation error
+- [ ] Subtotal on step two matches the sum of individual item prices
+- [ ] Tax amount is calculated correctly
+- [ ] Total equals subtotal + tax
+- [ ] Correct prices shown when multiple items are in the order
+- [ ] Correct item count shown when multiple items are added before checkout
+- [ ] All added item names appear in the order summary
+- [ ] Cart badge disappears after completing the order
+- [ ] Cart is empty after returning to the inventory via Back to Products
+- [ ] `problem_user` — correct items shown on step two
+- [ ] `error_user` — graceful handling of any network errors during checkout
+- [ ] `performance_glitch_user` — checkout completes successfully

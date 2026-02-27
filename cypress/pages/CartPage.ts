@@ -6,7 +6,7 @@ export class CartPage extends BasePage {
   readonly cartList = '[data-test="cart-list"]';
   readonly cartContentsContainer = '[data-test="cart-contents-container"]';
   
-  // Cart items reuse the inventory-item component
+  // Cart items
   readonly cartItem = '[data-test="inventory-item"]';
   readonly cartItemQuantity = '[data-test="item-quantity"]';
   readonly cartItemName = '[data-test="inventory-item-name"]';
@@ -19,9 +19,11 @@ export class CartPage extends BasePage {
   readonly continueShoppingBtn = '[data-test="continue-shopping"]';
   readonly checkoutBtn = '[data-test="checkout"]';
 
-  // Navigate directly to the cart page.
-  // failOnStatusCode: false is required because saucedemo is a client-side SPA —
-  // the server returns 404 for /cart.html but the client-side router handles it correctly.
+  /** 
+   * Navigate directly to the cart page.
+   * failOnStatusCode: false is required because saucedemo is a client-side SPA —
+   * the server returns 404 for /cart.html but the client-side router handles it correctly.
+  */
   visit() {
     cy.visit(CART_PAGE.CART_PAGE_URL, { failOnStatusCode: false });
     return this;

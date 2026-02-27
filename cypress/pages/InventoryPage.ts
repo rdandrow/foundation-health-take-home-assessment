@@ -2,12 +2,10 @@ import { BasePage } from './BasePage';
 import * as INVENTORY_PAGE from '../constants/Inventory.const';
 
 export class InventoryPage extends BasePage {
-  // ─── Secondary Header / Sorting ───────────────────────────────────────────
-
+  // Secondary Header / Sorting
   readonly sortDropdown = '[data-test="product-sort-container"]';
 
-  // ─── Inventory List ───────────────────────────────────────────────────────
-
+  // Inventory List
   readonly inventoryContainer = '[data-test="inventory-container"]';
   readonly inventoryList = '[data-test="inventory-list"]';
   readonly inventoryItem = '[data-test="inventory-item"]';
@@ -16,17 +14,15 @@ export class InventoryPage extends BasePage {
   readonly inventoryItemPrice = '[data-test="inventory-item-price"]';
   readonly inventoryItemImage = '[data-test="inventory-item-img-link"]';
 
-  // ─── Navigation ───────────────────────────────────────────────────────────
-
-  // Navigate directly to the inventory page.
-  // failOnStatusCode: false is required because saucedemo is a client-side SPA —
-  // the server returns 404 for /inventory.html but the client-side router handles it correctly.
+  /** 
+   * Navigate directly to the inventory page.
+   * failOnStatusCode: false is required because saucedemo is a client-side SPA —
+   * the server returns 404 for /inventory.html but the client-side router handles it correctly.
+   */
   visit() {
     cy.visit(INVENTORY_PAGE.INVENTORY_PAGE_URL, { failOnStatusCode: false });
     return this;
   }
-
-  // ─── Page Assertions ──────────────────────────────────────────────────────
 
   // Assert the inventory page has loaded with all key elements visible.
   assertPageVisible() {
@@ -47,8 +43,6 @@ export class InventoryPage extends BasePage {
     cy.get(this.inventoryItemName).contains(name).should('be.visible');
     return this;
   }
-
-  // ─── Sorting Assertions ───────────────────────────────────────────────────
 
   // Assert that product names are sorted A → Z.
   assertSortedByNameAsc() {
@@ -86,8 +80,6 @@ export class InventoryPage extends BasePage {
     return this;
   }
 
-  // ─── Cart Actions ─────────────────────────────────────────────────────────
-
   // Click the Add to Cart button for a specific product.
   addToCart(addToCartSelector: string) {
     cy.get(`[data-test="${addToCartSelector}"]`).click();
@@ -111,8 +103,6 @@ export class InventoryPage extends BasePage {
     cy.get(`[data-test="${removeSelector}"]`).should('be.visible');
     return this;
   }
-
-  // ─── Sort Actions ─────────────────────────────────────────────────────────
 
   // Select a sort option by its value attribute.
   sortBy(value: string) {
