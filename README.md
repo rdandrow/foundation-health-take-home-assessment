@@ -48,8 +48,9 @@ npm run cy:run
 │   │   ├── Login.cy.ts
 │   │   ├── Inventory.cy.ts
 │   │   └── Cart.cy.ts
-│   ├── fixtures/         # Static test data (JSON)
-│   ├── pages/            # Page Object Model classes
+│   ├── fixtures/             # Static test data (JSON)
+│   ├── pages/                # Page Object Model classes
+│   │   ├── BasePage.ts       # Abstract base class — shared locators & methods
 │   │   ├── LoginPage.ts
 │   │   ├── InventoryPage.ts
 │   │   └── CartPage.ts

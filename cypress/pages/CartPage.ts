@@ -1,26 +1,11 @@
+import { BasePage } from './BasePage';
 import * as CART_PAGE from '../constants/Cart.const';
 
-export class CartPage {
-  // Header and navigation elements (same as InventoryPage since they share a header)
-  readonly appLogo = '[data-test="app-logo"]';
-  readonly primaryHeader = '[data-test="primary-header"]';
-  readonly burgerMenuBtn = '#react-burger-menu-btn';
-  readonly burgerMenuCloseBtn = '#react-burger-cross-btn';
-  readonly navMenuAllItemsLink = '[data-test="inventory-sidebar-link"]';
-  readonly navMenuAboutLink = '[data-test="about-sidebar-link"]';
-  readonly navMenuLogoutLink = '[data-test="logout-sidebar-link"]';
-  readonly navMenuResetLink = '[data-test="reset-sidebar-link"]';
-  readonly shoppingCartLink = '[data-test="shopping-cart-link"]';
-  readonly shoppingCartBadge = '[data-test="shopping-cart-badge"]';
-
-  // Secondary Header / Sorting (not present on cart page but included for potential future use)
-  readonly secondaryHeader = '[data-test="secondary-header"]';
-  readonly pageTitle = '[data-test="title"]';
-
-  // Cart Content Elements
+export class CartPage extends BasePage {
+  // Cart Content
   readonly cartList = '[data-test="cart-list"]';
   readonly cartContentsContainer = '[data-test="cart-contents-container"]';
-
+  
   // Cart items reuse the inventory-item component
   readonly cartItem = '[data-test="inventory-item"]';
   readonly cartItemQuantity = '[data-test="item-quantity"]';
@@ -135,32 +120,6 @@ export class CartPage {
   // Click the Checkout button.
   proceedToCheckout() {
     cy.get(this.checkoutBtn).click();
-    return this;
-  }
-
-  // Open the burger nav menu.
-  openBurgerMenu() {
-    cy.get(this.burgerMenuBtn).click();
-    return this;
-  }
-
-  // Close the burger nav menu.
-  closeBurgerMenu() {
-    cy.get(this.burgerMenuCloseBtn).click();
-    return this;
-  }
-
-  // Click Logout from the burger menu.
-  logout() {
-    this.openBurgerMenu();
-    cy.get(this.navMenuLogoutLink).click();
-    return this;
-  }
-
-  // Click All Items from the burger menu.
-  goToAllItems() {
-    this.openBurgerMenu();
-    cy.get(this.navMenuAllItemsLink).click();
     return this;
   }
 }
